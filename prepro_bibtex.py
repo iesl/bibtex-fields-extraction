@@ -135,34 +135,64 @@ def inject_labels(input_fn, output_fn, writer):
     #write the labeled bibtex file into the output file
     with open(output_fn, 'w') as out_file:
         out_file.write(writer.write(bib_database))
+    
+def collect_author_name(fn):
+    writer = BibTexWriter()
+    #create the  output file 
+    output = fn.replace('.bib','.author')
+    #open the output file 
+    output_file = open(output,'w+')
+    #open the bibtex file 
+    with open(fn, encoding='ISO-8859-1') as bibtex_file:
+        #read the bibtex file into a list of dictionary 
+        parser = BibTexParser(common_strings=True)
+        parser.ignore_nonstandard_types = True
+        parser.homogenise_fields = False
+        bib_database = bibtexparser.loads(bibtex_file.read(), parser)
+        entries = bib_database.entries
+        #for each bibtex item
+        for entry in entries:
+            #go through all the entries  
+            for key, val in entry.items():
+                #if the label for this entry is author 
+                if key.lower()=='author':
+                    all_authors = val.split('and')
+                    #write all the values in this entry to authors' name file
+                    for one_author in all_authors:
+                        one_author = one_author.strip()
+                        output_file.write(one_author+'\n')
+        print(format_errors)
+        print(parsing_errors)
 
 
 if __name__ == '__main__':
     #create a bibtex writer 
     writer = BibTexWriter()
     format_errors, parsing_errors = [], []
-    #look for all the bib files 
-    for fn in glob.iglob(input_path):
-        #create new file names 
-        formatted_fn = fn.replace('.bib', '.formatted')
-        label_fn = fn.replace('.bib', '.label')
-        #try to reformnat the original bib file
-        try:
-            reformat_bib_file(fn, formatted_fn)
-        #print out the errors
-        except Exception as e:
-            print('#' * 20)
-            print(e)
-            print(fn)
-            format_errors.append(fn)
-        #try to lable the reformatted bib files 
-        try:
-            inject_labels(formatted_fn, label_fn, writer)
-        #print out the errors 
-        except Exception as e:
-            print('#' * 20)
-            print(e)
-            print(fn)
-            parsing_errors.append(fn)
-    print(format_errors)
-    print(parsing_errors)
+    fn = input_path
+    #create new file names 
+    formatted_fn = fn.replace('.bib', '.formatted')
+    label_fn = fn.replace('.bib', '.label')
+    #try to reformnat the original bib file
+    collect_author_name(fn)
+    try:
+        reformat_bib_file(fn, formatted_fn)
+    #print out the errors
+    except Exception as e:
+        print('#' * 20)
+        print(e)
+        print(fn)
+        format_errors.append(fn)
+    #try to lable the reformatted bib files 
+    try:
+        inject_labels(formatted_fn, label_fn, writer)
+    #print out the errors 
+    except Exception as e:
+        print('#' * 20)
+        print(e)
+        print(fn)
+        parsing_errors.append(fn)
+    
+
+
+

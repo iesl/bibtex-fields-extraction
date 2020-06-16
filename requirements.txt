@@ -1,3 +1,4 @@
-bibtexparser==2.4.2
-pybtex==0.22.2
-pdfminer.six==3.9.0
+bibtexparser
+pybtex
+pdfminer.six
+personalnames
