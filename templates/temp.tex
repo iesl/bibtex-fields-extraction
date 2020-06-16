@@ -1,0 +1,18 @@
+\documentclass{article}
+\usepackage{hyperref}        % To typeset urls
+\usepackage[T1]{fontenc} % necessary for "old text encoding" apparently (like for \k{a} (ogonek used in Polish))
+\usepackage[utf8]{inputenc}
+\pagestyle{empty}
+\raggedright
+\makeatletter
+\let\bibitemOrig=\bibitem
+\def\bibitem{\@ifnextchar[{\bibitemA}{\bibitemB}}
+\def\bibitemA[#1]#2{\item[CITATION MARKER:  #2]\bibitemOrig[#1]{#2}}
+\def\bibitemB#1{\item[CITATION MARKER:  #1]\bibitemOrig{#1}}
+\let\@biblabel\@gobble
+\makeatother
+\begin{document}
+\nocite{*}  % Cite all papers
+\bibliographystyle{}  % Bibliography style
+\input{BBL_NAME}       % Bibliography file
+\end{document}
