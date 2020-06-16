@@ -1,4 +1,5 @@
 # bibtex-fields-extraction
+### This code help you generate labeled citation string in CoNll format from a BibTex file. 
 
 ## Install requirments
 ```
@@ -42,6 +43,7 @@ portable 1
 ./install-tl --profile=texlive.profile 
 ```
 ## Generate labeled citation strings in CONLL format
+### To assure the quality, there should be only one citation in your BibTex file. You can pick up one style from the provided bst
 ```
 python prepro_bibtex.py <your_bibfile_path> <style>
 ```
