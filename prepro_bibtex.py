@@ -142,7 +142,7 @@ if __name__ == '__main__':
     writer = BibTexWriter()
     format_errors, parsing_errors = [], []
     #look for all the bib files 
-    for fn in glob.iglob(input_path+'/*/*.bib'):
+    for fn in glob.iglob(input_path):
         #create new file names 
         formatted_fn = fn.replace('.bib', '.formatted')
         label_fn = fn.replace('.bib', '.label')
