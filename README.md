@@ -41,21 +41,7 @@ portable 1
 ```
 ./install-tl --profile=texlive.profile 
 ```
-## Generate labeled Bibliography
-
-### 1. Formatt and label bib files
+## Generate labeled citation strings in CONLL format
 ```
-python prepro_bibtex.py <your_bibfile_path>
-```
-### 2. Collect author name from Bibtex file
-```
-python collect_author_name.py <your_bibfile_path>
-```
-### 3. Generate bbl file
-```
-python generate_bbls.py <your_bibfile_path> <styles>
-```
-### 4. Generate labeled citation strings in CONLL format
-```
-python generate_labeled_cit.py <your_bbl_folder_name> <your_bbl_folder_path> <styles>
+python prepro_bibtex.py <your_bibfile_path> <style>
 ```
