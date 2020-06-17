@@ -12,7 +12,7 @@ pip install requirements.txt
 ```
 python prepro_bibtex.py <your_bibfile_path> <style>
 ```
-## Pretrain language model use generated citation strings
+## Pretrain a RoberTa language model using generated citation strings
 1. Requirements and Installation
 * [PyTorch](http://pytorch.org/) version >= 1.4.0
 * Python version >= 3.6
@@ -35,16 +35,18 @@ pip install --editable ./
 ```
 python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/checkpoint_last.pt --pytorch_dump_folder_path hugginface/roberta.bibtex
 ```
-5. Train a RoberTa BibTex NER model
+## Train a RoberTa NER model using labeled citation strings
+1. Train a RoberTa BibTex NER model
 ```
 ./bibtex_ner.sh
 ```
-6. Fine-tune BibTex NER model on Umass dataset
+2. Fine-tune BibTex NER model on Umass dataset
 ```
 ./umass_ner.sh
 ```
-7. Evaluate BibTex NER model
+## Evaluate the performance on Umass dataset
+1. Generate prediction
 ```
 ./eval.sh
 ```
-8. Compute recall, precision and F1 score 
+1. Compute recall, precision and F1 score 
