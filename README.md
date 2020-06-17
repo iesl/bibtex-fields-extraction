@@ -12,3 +12,4 @@ pip install requirements.txt
 ```
 python prepro_bibtex.py <your_bibfile_path> <style>
 ```
+## Pretrain language model use generated citation strings
