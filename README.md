@@ -13,7 +13,7 @@ pip install requirements.txt
 python prepro_bibtex.py <your_bibfile_path> <style>
 ```
 ## Pretrain language model use generated citation strings
-### 1) Requirements and Installation
+1. Requirements and Installation
 * [PyTorch](http://pytorch.org/) version >= 1.4.0
 * Python version >= 3.6
 * For training new models, you'll also need an NVIDIA GPU and [NCCL](https://github.com/NVIDIA/nccl)
@@ -23,30 +23,30 @@ git clone https://github.com/pytorch/fairseq
 cd fairseq
 pip install --editable ./
 ```
-### 2) Preprocess/binarize the BibTex-41M data
+2. Preprocess/binarize the BibTex-41M data. Download BibTex-41M.
 ```
-data_dir='data-raw'
-dataset_dir=${data_dir}/bibtex-raw
+dataset_dir=data-raw/bibtex-raw
 fairseq-preprocess \
     --only-source \
     --srcdict $dataset_dir/dict.txt \
     --trainpref $dataset_dir/train.bpe \
     --validpref $dataset_dir/dev.bpe \
-    --destdir <your_destdir> \
+    --destdir data-bin/bibtex \
     --workers 60
 ```
-### 3) Train a language model
+3. Train a language model. 
 ```
-TOTAL_UPDATES=125000   # Total number of training steps
-WARMUP_UPDATES=10000    # Warmup the learning rate over this many updates
-PEAK_LR=0.0005          # Peak learning rate, adjust as needed
-TOKENS_PER_SAMPLE=512   # Max sequence length
-MAX_POSITIONS=512       # Num. positional embeddings (usually same as above)
-MAX_SENTENCES=4         # Number of sequences per batch (batch size)
-UPDATE_FREQ=16          # Increase the batch size 16x
+TOTAL_UPDATES=125000   
+WARMUP_UPDATES=10000    
+PEAK_LR=0.0005          
+TOKENS_PER_SAMPLE=512  
+MAX_POSITIONS=512       
+MAX_SENTENCES=4         
+UPDATE_FREQ=16          
 SAVE_FREQ=1024
 
-DATA_DIR=data-bin/$1
+DATA_DIR=<your_data_dir>
+MODEL_DIR=<your_model_dir>
 
 fairseq-train $DATA_DIR \
     --task masked_lm --criterion masked_lm \
@@ -57,7 +57,40 @@ fairseq-train $DATA_DIR \
     --max-sentences $MAX_SENTENCES --update-freq $UPDATE_FREQ \
     --max-update $TOTAL_UPDATES --log-format simple --log-interval 1 \
     --skip-invalid-size-inputs-valid-test --save-interval-updates $SAVE_FREQ \
-    --restore-file models/roberta.$1/checkpoint_last.pt --save-dir models/roberta.$1 --tensorboard-logdir logs/roberta.$1 \
+    --restore-file models/$MODEL_DIR/checkpoint_last.pt --save-dir models/$MODEL_DIR --tensorboard-logdir logs/$MODEL_DIR \
     --ddp-backend=no_c10d
 ```
+4. Train a BibTex NER model
+```
+DATA_DIR=<your_data_path>
+MODEL_DIR=<your_output_model_path>
 
+python run_ner.py --data_dir ${DATA_DIR} \
+                  --model_type roberta \
+                  --model_name_or_path  \
+                  --output_dir \
+                  --labels ${DATA_DIR}/labels.txt \
+                  --do_predict \
+                  --logging_steps 10000 \
+                  --save_steps 10000 \
+                  --num_train_epochs 3.0 \
+                  --per_gpu_train_batch_size 8 \
+                  --max_seq_length 512
+ ```                 
+5. Evaluate BibTex NER model
+```
+DATA_DIR=${WORKING_DIR}/data-raw
+MODEL_DIR=${WORKING_DIR}/huggingface
+
+python run_ner.py --data_dir ${DATA_DIR}/$1 \
+                  --model_type roberta \
+                  --model_name_or_path ${MODEL_DIR}/roberta.ner.pretrained-math/ \
+                  --output_dir ${MODEL_DIR}/roberta.ner.pretrained-math \
+                  --labels ${DATA_DIR}/labels.txt \
+                  --do_predict \
+                  --logging_steps 10000 \
+                  --save_steps 10000 \
+                  --num_train_epochs 3.0 \
+                  --per_gpu_train_batch_size 8 \
+                  --max_seq_length 512
+```
