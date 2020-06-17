@@ -40,11 +40,11 @@ python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/che
 ```
 ./bibtex_ner.sh
 ```
-2. Fine-tune BibTex NER model on Umass dataset
+2. Fine-tune BibTex NER model on UMass CFE dataset
 ```
 ./umass_ner.sh
 ```
-## Evaluate the performance on Umass dataset
+## Evaluate the performance on UMass CFE dataset
 1. Generate prediction
 ```
 ./eval.sh
