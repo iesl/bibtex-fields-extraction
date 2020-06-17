@@ -23,7 +23,7 @@ git clone https://github.com/pytorch/fairseq
 cd fairseq
 pip install --editable ./
 ```
-2. Preprocess/binarize the BibTex-41M data. Download BibTex-41M.
+2. Preprocess/binarize the BibTex-41M data. Download the corpus of BibTex-41M and put it in data-raw direcory.
 ```
 dataset_dir=data-raw/bibtex-raw
 fairseq-preprocess \
@@ -45,8 +45,7 @@ MAX_SENTENCES=4
 UPDATE_FREQ=16          
 SAVE_FREQ=1024
 
-DATA_DIR=<your_data_dir>
-MODEL_DIR=<your_model_dir>
+DATA_DIR=data-bin/bibtex
 
 fairseq-train $DATA_DIR \
     --task masked_lm --criterion masked_lm \
@@ -57,18 +56,62 @@ fairseq-train $DATA_DIR \
     --max-sentences $MAX_SENTENCES --update-freq $UPDATE_FREQ \
     --max-update $TOTAL_UPDATES --log-format simple --log-interval 1 \
     --skip-invalid-size-inputs-valid-test --save-interval-updates $SAVE_FREQ \
-    --restore-file models/$MODEL_DIR/checkpoint_last.pt --save-dir models/$MODEL_DIR --tensorboard-logdir logs/$MODEL_DIR \
+    --restore-file models/roberta.bibtex/checkpoint_last.pt --save-dir models/roberta.bibtex --tensorboard-logdir logs/roberta.bibtex \
     --ddp-backend=no_c10d
 ```
-4. Train a BibTex NER model
+4. Convert fairseq roberta checkpoint to pytorch
 ```
-DATA_DIR=<your_data_path>
-MODEL_DIR=<your_output_model_path>
+python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/checkpoint_last.pt --pytorch_dump_folder_path hugginface/roberta.bibtex
+```
+5. Train a RoberTa BibTex NER model
+```
+DATA_DIR=data-raw/
+MODEL_DIR=huggingface/
 
-python run_ner.py --data_dir ${DATA_DIR} \
+DATA_DIR=/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw
+#/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw
+#/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/clean_data/mlaa/
+#/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw
+MODEL_DIR=/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/huggingface
+#LABEL_DIR=/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw/bibtex-ner
+python run_ner.py --data_dir ${DATA_DIR}/bibtex-ner-5M \
                   --model_type roberta \
-                  --model_name_or_path  \
-                  --output_dir \
+                  --model_name_or_path roberta-base \
+                  --output_dir ${MODEL_DIR}/roberta.ner.base \
+                  --labels ${DATA_DIR}/labels.txt \
+                  --do_train \
+                  --logging_steps 30000 \
+                  --save_steps 30000 \
+                  --num_train_epochs 3.0 \
+                  --per_gpu_train_batch_size 6 \
+                  --max_seq_length 512
+ ```
+6. Fine-tune BibTex NER model on Umass dataset
+```
+DATA_DIR=data-raw/
+MODEL_DIR=huggingface/
+
+python run_ner.py --data_dir ${DATA_DIR}/bibtex-ner-umass \
+                  --model_type roberta \
+                  --model_name_or_path ${MODEL_DIR}/roberta.ner.base \
+                  --output_dir ${MODEL_DIR}/roberta.ner \
+                  --labels ${DATA_DIR}/labels.txt \
+                  --do_train \
+                  --logging_steps 30000 \
+                  --save_steps 30000 \
+                  --num_train_epochs 3.0 \
+                  --per_gpu_train_batch_size 6 \
+                  --max_seq_length 512
+ ```
+7. Evaluate BibTex NER model
+```
+DATA_DIR=data-raw/roberta.ner
+MODEL_DIR=huggingface/
+
+python run_ner.py --data_dir ${DATA_DIR}/bibtex-ner-umass \
+                  --model_type roberta \
+                  --model_name_or_path ${MODEL_DIR}/roberta.ner \
+                  --output_dir ${MODEL_DIR}/roberta.ner \
                   --labels ${DATA_DIR}/labels.txt \
                   --do_predict \
                   --logging_steps 10000 \
@@ -76,21 +119,5 @@ python run_ner.py --data_dir ${DATA_DIR} \
                   --num_train_epochs 3.0 \
                   --per_gpu_train_batch_size 8 \
                   --max_seq_length 512
- ```                 
-5. Evaluate BibTex NER model
 ```
-DATA_DIR=${WORKING_DIR}/data-raw
-MODEL_DIR=${WORKING_DIR}/huggingface
-
-python run_ner.py --data_dir ${DATA_DIR}/$1 \
-                  --model_type roberta \
-                  --model_name_or_path ${MODEL_DIR}/roberta.ner.pretrained-math/ \
-                  --output_dir ${MODEL_DIR}/roberta.ner.pretrained-math \
-                  --labels ${DATA_DIR}/labels.txt \
-                  --do_predict \
-                  --logging_steps 10000 \
-                  --save_steps 10000 \
-                  --num_train_epochs 3.0 \
-                  --per_gpu_train_batch_size 8 \
-                  --max_seq_length 512
-```
+8. Compute recall, precision and F1 score 
