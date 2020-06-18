@@ -29,7 +29,7 @@ git clone https://github.com/huggingface/transformers
 cd transformers
 pip install .
 ```
-2. Preprocess/binarize the BibTex-41M data. Download the corpus of BibTex-41M and put it in data-raw direcory.
+2. Preprocess/binarize the BibTex-5M data. Download the corpus of BibTex-5M and put it in data-raw direcory.
 ```
 ./preprocess.sh
 ```
@@ -39,7 +39,7 @@ pip install .
 ```
 4. Convert fairseq roberta checkpoint to pytorch
 ```
-python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/checkpoint_last.pt --pytorch_dump_folder_path huggingface/roberta.bibtex
+python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/checkpoint_last.pt --pytorch_dump_folder_path huggingface/roberta.5M
 ```
 ## Train a RoBERTa NER model using labeled citation strings
 1. Train a RoberTa BibTex NER model
