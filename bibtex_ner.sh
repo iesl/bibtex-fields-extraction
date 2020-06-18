@@ -3,8 +3,8 @@ MODEL_DIR=huggingface/
 
 python run_ner.py --data_dir ${DATA_DIR}/bibtex-ner-5M \
                   --model_type roberta \
-                  --model_name_or_path roberta-base \
-                  --output_dir ${MODEL_DIR}/roberta.5M \
+                  --model_name_or_path ${MODEL_DIR}/roberta.5M \
+                  --output_dir ${MODEL_DIR}/roberta.5M.bibtex \
                   --labels ${DATA_DIR}/labels.txt \
                   --do_train \
                   --logging_steps 30000 \
