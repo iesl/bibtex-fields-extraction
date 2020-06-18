@@ -23,6 +23,12 @@ git clone https://github.com/pytorch/fairseq
 cd fairseq
 pip install --editable ./
 ```
+* **To install huggingface** and develop locally:
+```
+git clone https://github.com/huggingface/transformers
+cd transformers
+pip install .
+```
 2. Preprocess/binarize the BibTex-41M data. Download the corpus of BibTex-41M and put it in data-raw direcory.
 ```
 ./preprocess.sh
