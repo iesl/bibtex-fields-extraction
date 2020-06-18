@@ -1,16 +1,10 @@
 DATA_DIR=data-raw/
 MODEL_DIR=huggingface/
 
-DATA_DIR=/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw
-#/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw
-#/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/clean_data/mlaa/
-#/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw
-MODEL_DIR=/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/huggingface
-#LABEL_DIR=/mnt/nfs/scratch1/zhiyangxu/fairseq-cfe/data-raw/bibtex-ner
 python run_ner.py --data_dir ${DATA_DIR}/bibtex-ner-5M \
                   --model_type roberta \
                   --model_name_or_path roberta-base \
-                  --output_dir ${MODEL_DIR}/roberta.ner.base \
+                  --output_dir ${MODEL_DIR}/roberta.5M \
                   --labels ${DATA_DIR}/labels.txt \
                   --do_train \
                   --logging_steps 30000 \
