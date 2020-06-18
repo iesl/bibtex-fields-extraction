@@ -1,8 +1,8 @@
 # Bibtex-Fields-Extraction
 ## Prepare labeled citation strings 
-1. Go to data directory
+1. Go to data_script directory
 ```
-cd data
+cd data_script
 ```
 2. Install requirments
 ```
