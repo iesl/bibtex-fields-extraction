@@ -39,7 +39,7 @@ pip install .
 ```
 4. Convert fairseq roberta checkpoint to pytorch
 ```
-python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/checkpoint_last.pt --pytorch_dump_folder_path hugginface/roberta.bibtex
+python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/checkpoint_last.pt --pytorch_dump_folder_path huggingface/roberta.bibtex
 ```
 ## Train a RoBERTa NER model using labeled citation strings
 1. Train a RoberTa BibTex NER model
