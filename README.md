@@ -56,4 +56,7 @@ python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/che
 ./eval.sh
 ```
 2. Compute recall, precision and F1 score 
-
+```
+python eval_script/evaluation.py huggingface/roberta.ner/test_predictions.txt data-raw/bibtex-ner-umass/test.txt huggingface/roberta.ner/eval.txt
+./eval_script/run_eval.sh huggingface/roberta.ner/eval.txt
+```
