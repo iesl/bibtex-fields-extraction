@@ -60,3 +60,15 @@ python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/che
 python eval_script/evaluation.py huggingface/roberta.5M.bibtex.umass/test_predictions.txt data-raw/bibtex-ner-umass/test.txt huggingface/roberta.5M.bibtex.umass/eval.txt
 ./eval_script/run_eval.sh huggingface/roberta.5M.bibtex.umass/eval.txt
 ```
+## Citation
+If you find the code helpful in your resarch or work, please cite the following paper.
+```
+@inproceedings{
+thai2020using,
+title={Using BibTeX to Automatically Generate Labeled Data for Citation Field Extraction},
+author={Dung Thai and Zhiyang Xu and Nicholas Monath and Boris Veytsman and Andrew McCallum},
+booktitle={Automated Knowledge Base Construction},
+year={2020},
+url={https://openreview.net/forum?id=OnUd3hf3o3}
+}
+```
