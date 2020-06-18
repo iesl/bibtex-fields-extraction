@@ -4,7 +4,7 @@ Dung Thai, Zhiyang Xu, Nicholas Monath, Boris Veytsman, and Andrew McCallum, "Us
 
 ## Introduction
 Accurate parsing of citation reference strings is crucial to automatically construct scholarlydatabases such as Google Scholar or Semantic Scholar. Citation field extraction (CFE) is preciselythis task—given a reference label which tokens refer to the authors, venue, title, editor, journal,pages, etc. Most methods for CFE are supervised and rely on training from labeled datasets that arequite small compared to the great variety of reference formats. BIBTEX, the widely used referencemanagement tool, provides a natural method to automatically generate and label training data forCFE. In this paper, we describe a technique for using BIBTEX to generate, automatically, a large-scale(41Mlabeled strings), labeled dataset, that is four orders of magnitude larger than the current largestCFE dataset, namely the UMass Citation Field Extraction dataset  [Anzaroot and McCallum, 2013].We experimentally demonstrate how our dataset can be used to improve the performance of theUMass CFE using a RoBERTa-based [Liu et al., 2019] model. In comparison to previous SoTA, weachieve a24.48%relative error reduction, achieving span level F1-scores of 96.3%.
-![sample](figure/sample.png =250x250)
+![sample](figure/sample.png | width=48)
 ## Prepare labeled citation strings 
 1. Go to data_script directory
 ```
