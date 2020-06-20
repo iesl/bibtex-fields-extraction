@@ -1,15 +1,16 @@
 # Bibtex-Fields-Extraction
 This repository is for the following paper
 [Dung Thai<sup>*</sup>](https://people.cs.umass.edu/~dthai/), Zhiyang Xu, [Nicholas Monath<sup>*</sup>](https://people.cs.umass.edu/~nmonath/), [Boris Veytsman<sup>*</sup>](http://borisv.lk.net), and [Andrew McCallum<sup>*</sup>](https://people.cs.umass.edu/~mccallum/), "Using BIBTEX to Automatically Generate Labeled Data for Citation Field Extraction" [[OpenReview]](https://openreview.net/pdf?id=OnUd3hf3o3)
+## Dataset
+<img src="./figure/summary1.png" alt="summary1" width="400"/>
 
 ## Contents
 1. [Introduction](#Introduction)
 2. [Preparation](#Preparation)
 3. [Training](#Training)
 4. [Evaluation](#Evaluation)
-5. [Dataset](#Dataset)
-6. [Performance](#Performance)
-7. [Citation](#Citation)
+5. [Performance](#Performance)
+6. [Citation](#Citation)
 
 ## Introduction
 Accurate parsing of citation reference strings is crucial to automatically construct scholarlydatabases such as Google Scholar or Semantic Scholar. Citation field extraction (CFE) is precisely this task—given a reference label which tokens refer to the authors, venue, title, editor, journal, pages, etc. Most methods for CFE are supervised and rely on training from labeled datasets that arequite small compared to the great variety of reference formats. BIBTEX, the widely used reference management tool, provides a natural method to automatically generate and label training data for CFE. In this paper, we describe a technique for using BIBTEX to generate, automatically, a large-scale (41M labeled strings), labeled dataset, that is four orders of magnitude larger than the current largest CFE dataset, namely the UMass Citation Field Extraction dataset  [Anzaroot and McCallum, 2013]. We experimentally demonstrate how our dataset can be used to improve the performance of the UMass CFE using a RoBERTa-based [Liu et al., 2019] model. In comparison to previous SoTA, we achieve a 24.48% relative error reduction, achieving span level F1-scores of 96.3%.
@@ -79,9 +80,6 @@ python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/che
 python eval_script/evaluation.py huggingface/roberta.5M.bibtex.umass/test_predictions.txt data-raw/bibtex-ner-umass/test.txt huggingface/roberta.5M.bibtex.umass/eval.txt
 ./eval_script/run_eval.sh huggingface/roberta.5M.bibtex.umass/eval.txt
 ```
-## Dataset
-<img src="./figure/summary1.png" alt="summary1" width="400"/>
-
 ## Performance
 <img src="./figure/result1.png" alt="result1" width="400"/>
 <img src="./figure/result3.png" alt="result3" width="600"/>
