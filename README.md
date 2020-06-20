@@ -73,6 +73,12 @@ python eval_script/evaluation.py huggingface/roberta.5M.bibtex.umass/test_predic
 ## Summary of the Bibtex 41M dataset
 <img src="./figure/summary1.png" alt="summary1" width="400"/>
 
+## Performance
+<img src="./figure/result1.png" alt="result1" width="400"/>
+<img src="./figure/result2.png" alt="result2" width="400"/>
+<img src="./figure/result3.png" alt="result3" width="400"/>
+<img src="./figure/result4.png" alt="result4" width="400"/>
+
 ## Citation
 If you find the code helpful in your resarch or work, please cite the following paper.
 ```
