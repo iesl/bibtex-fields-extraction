@@ -1,7 +1,7 @@
 # Bibtex-Fields-Extraction
 This repository is for the following paper
 [Dung Thai<sup>*</sup>](https://people.cs.umass.edu/~dthai/), Zhiyang Xu, [Nicholas Monath<sup>*</sup>](https://people.cs.umass.edu/~nmonath/), [Boris Veytsman<sup>*</sup>](http://borisv.lk.net), and [Andrew McCallum<sup>*</sup>](https://people.cs.umass.edu/~mccallum/), "Using BIBTEX to Automatically Generate Labeled Data for Citation Field Extraction" [[OpenReview]](https://openreview.net/pdf?id=OnUd3hf3o3)
-## Dataset
+## Dataset Summary
 <img src="./figure/summary1.png" alt="summary1" width="400"/>
 
 ## Contents
