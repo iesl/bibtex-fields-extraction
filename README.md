@@ -69,8 +69,7 @@ python eval_script/evaluation.py huggingface/roberta.5M.bibtex.umass/test_predic
 ./eval_script/run_eval.sh huggingface/roberta.5M.bibtex.umass/eval.txt
 ```
 ## Summary of the Bibtex 41M dataset
-![summary1](/figure/summary1.png)
-![summary2](/figure/summary2.png)
+![summary1](/figure/summary1.png) ![summary2](/figure/summary2.png)
 ## Citation
 If you find the code helpful in your resarch or work, please cite the following paper.
 ```
