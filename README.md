@@ -68,6 +68,9 @@ python convert_checkpoint.py --roberta_checkpoint_path models/roberta.bibtex/che
 python eval_script/evaluation.py huggingface/roberta.5M.bibtex.umass/test_predictions.txt data-raw/bibtex-ner-umass/test.txt huggingface/roberta.5M.bibtex.umass/eval.txt
 ./eval_script/run_eval.sh huggingface/roberta.5M.bibtex.umass/eval.txt
 ```
+## Summary of the Bibtex 41M dataset
+![summary1](/figure/summary1.png)
+![summary2](/figure/summary2.png)
 ## Citation
 If you find the code helpful in your resarch or work, please cite the following paper.
 ```
